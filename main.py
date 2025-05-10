@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import openai
 import os
 
-load_dotenv()  # Loads variables from .env
+load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -45,3 +45,9 @@ async def clinical_tool(request: ClinicalRequest):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# This allows the app to run locally and on Railway using the correct port
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
